@@ -24,7 +24,7 @@ interface Answer {
   author: string;
 }
 
-const Admin2: React.FC = () => {
+const Admin: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [posts, setPosts] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -149,4 +149,4 @@ const Admin2: React.FC = () => {
   );
 };
 
-export default Admin2;
+export default Admin;

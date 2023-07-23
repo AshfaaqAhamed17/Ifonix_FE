@@ -31,7 +31,9 @@ const Signup: React.FC = () => {
   const handleTogglePasswordVisibility = (field: string) => {
     setFormData((prevData) => ({
       ...prevData,
-      [field]: !prevData[field],
+      showPassword: field === "showPassword" ? !prevData.showPassword : false,
+      showConfirmPassword:
+        field === "showConfirmPassword" ? !prevData.showConfirmPassword : false,
     }));
   };
 
@@ -100,9 +102,15 @@ const Signup: React.FC = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      onClick={() => handleTogglePasswordVisibility("showPassword")}
+                      onClick={() =>
+                        handleTogglePasswordVisibility("showPassword")
+                      }
                     >
-                      {formData.showPassword ? <VisibilityOff /> : <Visibility />}
+                      {formData.showPassword ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -123,9 +131,15 @@ const Signup: React.FC = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      onClick={() => handleTogglePasswordVisibility("showConfirmPassword")}
+                      onClick={() =>
+                        handleTogglePasswordVisibility("showConfirmPassword")
+                      }
                     >
-                      {formData.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      {formData.showConfirmPassword ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -145,8 +159,7 @@ const Signup: React.FC = () => {
           </Grid>
         </Grid>
         <Typography variant="body1" align="center" gutterBottom>
-          Already have an account?{" "}
-          <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </Typography>
       </form>
     </Container>
