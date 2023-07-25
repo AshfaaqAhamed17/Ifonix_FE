@@ -7,6 +7,7 @@ import Login from "./pages/login";
 import PostDetails from "./pages/postdetails";
 import UserProfile from "./pages/userprofile";
 import Admin from "./pages/admin";
+import Admin2 from "./pages/admin2";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin2" element={<Admin2 />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/post/:id" element={<PostDetails />} />
