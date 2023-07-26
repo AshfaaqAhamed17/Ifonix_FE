@@ -1,21 +1,12 @@
 // AdminPage.tsx
 
 import React, { useState } from "react";
-// import axios from "axios";
 import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-} from "@mui/material";
 import Navbar from "../components/navbar";
+import AdminQCard from "../components/AdminQCard";
+import AdminACard from "../components/AdminACard";
 
 // interface User {
 //   id: number;
@@ -38,7 +29,7 @@ interface Answer {
   author: string;
 }
 
-const Admin: React.FC = () => {
+function Admin() {
   // Dummy users
   // const dummyUsers: User[] = [
   //   { id: 1, username: "JohnDoe" },
@@ -46,28 +37,27 @@ const Admin: React.FC = () => {
   //   { id: 3, username: "PeterParker" },
   //   // Add more dummy users here as needed
   // ];
-
   // Dummy questions
   const dummyQuestions: Question[] = [
     {
       id: 1,
       title: "Question 1",
       content: "This is the content of Question 1.",
-      userId: 1, // JohnDoe asked this question (user with ID 1)
+      userId: 1,
       approved: false,
     },
     {
       id: 2,
       title: "Question 2",
       content: "This is the content of Question 2.",
-      userId: 2, // JaneSmith asked this question (user with ID 2)
+      userId: 2,
       approved: false,
     },
     {
       id: 3,
       title: "Question 3",
       content: "This is the content of Question 3.",
-      userId: 1, // JohnDoe asked this question (user with ID 1)
+      userId: 1,
       approved: false,
     },
     // Add more dummy questions here as needed
@@ -102,49 +92,17 @@ const Admin: React.FC = () => {
     // Add more dummy answers here as needed
   ];
 
-  const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(
-    null
-  );
-  const [selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
-  const [showModal, setShowModal] = useState(false);
-  const [feedback, setFeedback] = useState("");
   const [value, setValue] = React.useState("post");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    console.log("newValue", newValue);
+    console.log("event", event);
     setValue(newValue);
   };
   // Dummy data for number of posts
   const totalPosts = 100; // Replace with the actual total number of posts
   const postsInReview = dummyQuestions.length; // Replace with the actual number of posts in review
   const answersInReview = dummyAnswers.length; // Replace with the actual number of posts in review
-
-  const handleCloseModal = () => {
-    console.log("Feedback sent.", feedback);
-    setShowModal(false);
-    setFeedback("");
-  };
-
-  const handleApproveAnswer = (answerId: number) => {
-    // Logic to handle approving the answer
-    console.log(`Answer with ID ${answerId} has been approved.`);
-  };
-
-  const handleApprovePost = (postId: number) => {
-    // Logic to handle approving the post
-    console.log(`Post with ID ${postId} has been approved.`);
-  };
-
-  const handleRejectQuestion = (question: Question) => {
-    console.log("Question: ", question);
-    setSelectedQuestion(question);
-    setShowModal(true);
-  };
-
-  const handleRejectAnswer = (answer: Answer) => {
-    console.log("Answer: ", answer);
-    setSelectedAnswer(answer);
-    setShowModal(true);
-  };
 
   return (
     <>
@@ -166,7 +124,7 @@ const Admin: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="p-4">
+      <div className="">
         <Box sx={{ width: "100%", typography: "body1" }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -182,148 +140,21 @@ const Admin: React.FC = () => {
             <TabPanel value="post">
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 {dummyQuestions.map((post) => (
-                  <div
-                    key={post.id}
-                    className="p-4 border border-gray-300 mb-4 rounded-md shadow-md"
-                  >
-                    <h3 className="text-xl font-bold mb-2">{post.title}</h3>
-                    <p className="text-lg mb-2">{post.content}</p>
-                    <p className="text-sm text-gray-500">
-                      Author: {post.userId}
-                    </p>
-                    <div className="flex justify-between mt-4">
-                      <button
-                        className="bg-green-500 text-white px-4 py-2 rounded-md"
-                        onClick={() => handleApprovePost(post.id)}
-                      >
-                        Approve Post
-                      </button>
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 rounded-md"
-                        onClick={() => handleRejectQuestion(post)}
-                      >
-                        Reject Post
-                      </button>
-                    </div>
-                  </div>
+                  <AdminQCard key={post.id} questionDetails={post} />
                 ))}
               </div>
             </TabPanel>
             <TabPanel value="answer">
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 {dummyAnswers.map((answer) => (
-                  <div
-                    key={answer.id}
-                    className="p-4 border border-gray-300 mb-4 rounded-md shadow-md"
-                  >
-                    <p>{answer.content}</p>
-                    <p>Author: {answer.author}</p>
-                    <div className="flex justify-between mt-4">
-                      <button
-                        className="bg-green-500 text-white px-4 py-2 rounded-md"
-                        onClick={() => handleApproveAnswer(answer.id)}
-                      >
-                        Approve Answer
-                      </button>
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 rounded-md"
-                        onClick={() => handleRejectAnswer(answer)}
-                      >
-                        Reject Answer
-                      </button>
-                    </div>
-                  </div>
+                  <AdminACard key={answer.id} answerDetails={answer} />
                 ))}
               </div>
             </TabPanel>
           </TabContext>
         </Box>
       </div>
-
-      {/* Modal for providing feedback */}
-      <Dialog
-        open={showModal}
-        onClose={handleCloseModal}
-        maxWidth="sm"
-        fullWidth
-      >
-        {selectedQuestion ? (
-          <>
-            <DialogTitle>Feedback for Rejected Post</DialogTitle>
-            <DialogContent>
-              <TextField
-                label="Feedback"
-                multiline
-                rows={4}
-                fullWidth
-                variant="outlined"
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseModal}>Close</Button>
-              {/* <Button
-                onClick={() => {
-                  handleApprovePost(selectedQuestion.id);
-                  handleCloseModal();
-                }}
-                color="primary"
-              >
-                Approve
-              </Button> */}
-              <Button
-                onClick={() => {
-                  setSelectedQuestion(null);
-                  handleCloseModal();
-                }}
-                color="error"
-              >
-                Send
-              </Button>
-            </DialogActions>
-          </>
-        ) : null}
-
-        {selectedAnswer ? (
-          <>
-            <DialogTitle>Feedback for Rejected Answer</DialogTitle>
-            <DialogContent>
-              <TextField
-                label="Feedback"
-                multiline
-                rows={4}
-                fullWidth
-                variant="outlined"
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseModal}>Close</Button>
-              {/* <Button
-                onClick={() => {
-                  handleApproveAnswer(selectedAnswer.id);
-                  handleCloseModal();
-                }}
-                color="primary"
-              >
-                Approve
-              </Button> */}
-              <Button
-                onClick={() => {
-                  setSelectedAnswer(null);
-                  handleCloseModal();
-                }}
-                color="error"
-              >
-                Send
-              </Button>
-            </DialogActions>
-          </>
-        ) : null}
-      </Dialog>
     </>
   );
-};
+}
 export default Admin;

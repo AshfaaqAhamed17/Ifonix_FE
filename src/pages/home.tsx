@@ -12,7 +12,7 @@ interface Post {
   author: string;
 }
 
-const Home: React.FC = () => {
+function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const dummyPosts: Post[] = [
     {
@@ -39,7 +39,6 @@ const Home: React.FC = () => {
       content: "How to deploy a website?",
       author: "Robert Downey Jr.",
     },
-
     // Add more dummy posts here as needed
   ];
 
@@ -62,8 +61,7 @@ const Home: React.FC = () => {
 
   // Filter the posts based on the search query
   const filteredPosts = dummyPosts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (post) => post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -80,8 +78,7 @@ const Home: React.FC = () => {
             value={searchQuery}
             onChange={handleSearchInputChange}
             className="border border-gray-300 px-4 py-2 w-full rounded-md"
-            placeholder="Search for questions..."
-          />
+            placeholder="Search for questions..." />
         </div>
         <h2 className="text-2xl font-semibold">Approved Posts:</h2>
         {filteredPosts.length === 0 ? (
@@ -96,6 +93,6 @@ const Home: React.FC = () => {
       </div>
     </>
   );
-};
+}
 
 export default Home;

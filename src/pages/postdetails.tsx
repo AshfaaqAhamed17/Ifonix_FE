@@ -20,8 +20,8 @@ interface Answer {
   author: string;
 }
 
-const PostDetails = () => {
-  const { id } = useParams<{ id?: string }>(); // Add a '?' to make id optional
+function PostDetails() {
+  const { id } = useParams<{ id?: string; }>(); // Add a '?' to make id optional
 
   if (!id) {
     // Handle the case where id is undefined or empty
@@ -56,7 +56,6 @@ const PostDetails = () => {
       content: "This is the content of Sample Post 4.",
       author: "Robert Downey Jr.",
     },
-
     // Add more dummy posts here as needed
   ];
 
@@ -154,14 +153,13 @@ const PostDetails = () => {
               <PostDetails_Card
                 key={answer.id}
                 answer={answer}
-                isUserProf={false}
-              />
+                isUserProf={false} />
             ))}
           </div>
         )}
       </div>
     </>
   );
-};
+}
 
 export default PostDetails;

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const Signup: React.FC = () => {
+function Signup() {
   const history = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -32,8 +32,7 @@ const Signup: React.FC = () => {
     setFormData((prevData) => ({
       ...prevData,
       showPassword: field === "showPassword" ? !prevData.showPassword : false,
-      showConfirmPassword:
-        field === "showConfirmPassword" ? !prevData.showConfirmPassword : false,
+      showConfirmPassword: field === "showConfirmPassword" ? !prevData.showConfirmPassword : false,
     }));
   };
 
@@ -73,8 +72,7 @@ const Signup: React.FC = () => {
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              required
-            />
+              required />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -85,8 +83,7 @@ const Signup: React.FC = () => {
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              required
-            />
+              required />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -102,9 +99,7 @@ const Signup: React.FC = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      onClick={() =>
-                        handleTogglePasswordVisibility("showPassword")
-                      }
+                      onClick={() => handleTogglePasswordVisibility("showPassword")}
                     >
                       {formData.showPassword ? (
                         <VisibilityOff />
@@ -114,8 +109,7 @@ const Signup: React.FC = () => {
                     </IconButton>
                   </InputAdornment>
                 ),
-              }}
-            />
+              }} />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -131,9 +125,7 @@ const Signup: React.FC = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      onClick={() =>
-                        handleTogglePasswordVisibility("showConfirmPassword")
-                      }
+                      onClick={() => handleTogglePasswordVisibility("showConfirmPassword")}
                     >
                       {formData.showConfirmPassword ? (
                         <VisibilityOff />
@@ -143,8 +135,7 @@ const Signup: React.FC = () => {
                     </IconButton>
                   </InputAdornment>
                 ),
-              }}
-            />
+              }} />
           </Grid>
           <Grid item xs={12}>
             <Button
@@ -164,6 +155,6 @@ const Signup: React.FC = () => {
       </form>
     </Container>
   );
-};
+}
 
 export default Signup;

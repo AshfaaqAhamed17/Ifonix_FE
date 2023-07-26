@@ -12,7 +12,7 @@ interface answerProps {
   isUserProf: boolean;
 }
 
-const postdetails = ({ answer, isUserProf }: answerProps) => {
+function postdetails({ answer, isUserProf }: answerProps) {
   const handleDeleteAnswer = (answerId: number) => {
     console.log("Deleting answer with ID " + answerId);
     // ... (handle delete answer logic here)
@@ -27,8 +27,9 @@ const postdetails = ({ answer, isUserProf }: answerProps) => {
       <p className="text-sm text-gray-500">Author: {answer.author}</p>
       <button
         // className="text-red-500 mt-2 flex items-center self-end"
-        className={`${isUserProf? 'hidden': ''} text-red-500 mt-2 flex items-center self-end `}
-
+        className={`${
+          isUserProf ? "hidden" : ""
+        } text-red-500 mt-2 flex items-center self-end `}
         onClick={() => handleDeleteAnswer(answer.id)}
       >
         <span className="material-icons mr-1">
@@ -37,6 +38,6 @@ const postdetails = ({ answer, isUserProf }: answerProps) => {
       </button>
     </div>
   );
-};
+}
 
 export default postdetails;

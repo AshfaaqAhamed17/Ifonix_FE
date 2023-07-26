@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const Login: React.FC = () => {
+function Login() {
   const history = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -63,8 +63,7 @@ const Login: React.FC = () => {
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              required
-            />
+              required />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -84,8 +83,7 @@ const Login: React.FC = () => {
                     </IconButton>
                   </InputAdornment>
                 ),
-              }}
-            />
+              }} />
           </Grid>
           <Grid item xs={12}>
             <Button
@@ -106,6 +104,6 @@ const Login: React.FC = () => {
       </form>
     </Container>
   );
-};
+}
 
 export default Login;

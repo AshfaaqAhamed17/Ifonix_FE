@@ -1,12 +1,12 @@
 import React from "react";
 import Navbar from "../components/navbar";
 
-const About = () => {
+function About() {
   return (
     <>
       <Navbar />
     </>
   );
-};
+}
 
 export default About;

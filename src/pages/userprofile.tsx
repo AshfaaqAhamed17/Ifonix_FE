@@ -18,7 +18,7 @@ interface Question {
   userId: number; // The ID of the user who asked the question
 }
 
-const UserProfile: React.FC = () => {
+function UserProfile() {
   const { userId } = useParams<{ userId?: string }>();
 
   // Handle the case where userId is undefined or null
@@ -107,6 +107,6 @@ const UserProfile: React.FC = () => {
       </div>
     </>
   );
-};
+}
 
 export default UserProfile;
