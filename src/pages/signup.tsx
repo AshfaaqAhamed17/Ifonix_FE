@@ -32,7 +32,8 @@ function Signup() {
     setFormData((prevData) => ({
       ...prevData,
       showPassword: field === "showPassword" ? !prevData.showPassword : false,
-      showConfirmPassword: field === "showConfirmPassword" ? !prevData.showConfirmPassword : false,
+      showConfirmPassword:
+        field === "showConfirmPassword" ? !prevData.showConfirmPassword : false,
     }));
   };
 
@@ -40,20 +41,32 @@ function Signup() {
     event.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      // Handle password mismatch here (e.g., show error message)
+      alert("Passwords do not match!");
       console.error("Passwords do not match!");
       return;
     }
 
     try {
+      const data = {
+        userName: formData.username,
+        email: formData.email,
+        password: formData.password,
+      };
+
+      console.log("Signup form data:", JSON.stringify(data));
       // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for signup
-      // const response = await axios.post("YOUR_API_ENDPOINT", formData);
+      const response = await axios.post(
+        "http://localhost:1100/api/v1/auth/register",
+        data
+      );
       // Handle successful signup here (e.g., show success message, redirect to login)
-      console.log("Signup successful!");
-      history("/"); // Redirect to the login page after successful signup
+      if (response) {
+        console.log("Signup successful!");
+        history("/login"); // Redirect to the login page after successful signup
+      }
     } catch (error) {
       // Handle signup error here (e.g., show error message)
-      console.error("Signup failed:", error);
+      console.error("Signup failed yes:", error);
     }
   };
 
@@ -72,7 +85,8 @@ function Signup() {
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              required />
+              required
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -83,7 +97,8 @@ function Signup() {
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              required />
+              required
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -99,7 +114,9 @@ function Signup() {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      onClick={() => handleTogglePasswordVisibility("showPassword")}
+                      onClick={() =>
+                        handleTogglePasswordVisibility("showPassword")
+                      }
                     >
                       {formData.showPassword ? (
                         <VisibilityOff />
@@ -109,7 +126,8 @@ function Signup() {
                     </IconButton>
                   </InputAdornment>
                 ),
-              }} />
+              }}
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -125,7 +143,9 @@ function Signup() {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      onClick={() => handleTogglePasswordVisibility("showConfirmPassword")}
+                      onClick={() =>
+                        handleTogglePasswordVisibility("showConfirmPassword")
+                      }
                     >
                       {formData.showConfirmPassword ? (
                         <VisibilityOff />
@@ -135,7 +155,8 @@ function Signup() {
                     </IconButton>
                   </InputAdornment>
                 ),
-              }} />
+              }}
+            />
           </Grid>
           <Grid item xs={12}>
             <Button

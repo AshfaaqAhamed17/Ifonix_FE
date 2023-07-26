@@ -10,6 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import axios from "axios";
 
 function Login() {
   const history = useNavigate();
@@ -36,11 +37,20 @@ function Login() {
 
     // Here you can handle the login process using your API endpoint or authentication logic
     try {
+      const data = {
+        email: formData.email,
+        password: formData.password,
+      };
       // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for login
-      // const response = await axios.post("YOUR_API_ENDPOINT", formData);
-      // Handle successful login here (e.g., show success message, redirect to dashboard)
-      console.log("Login successful!");
-      history("/"); // Redirect to the dashboard or the desired page after successful login
+      const response = await axios.post(
+        "http://localhost:1100/api/v1/auth/login",
+        data
+      );
+      // Handle successful login here (e.g., show success message, redirect to login)
+      if (response) {
+        console.log("Login successful!");
+        history("/admin"); // Redirect to the login page after successful signup
+      }
     } catch (error) {
       // Handle login error here (e.g., show error message)
       console.error("Login failed:", error);
@@ -63,7 +73,8 @@ function Login() {
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              required />
+              required
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -79,11 +90,16 @@ function Login() {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={handleTogglePasswordVisibility}>
-                      {formData.showPassword ? <VisibilityOff /> : <Visibility />}
+                      {formData.showPassword ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 ),
-              }} />
+              }}
+            />
           </Grid>
           <Grid item xs={12}>
             <Button
@@ -98,8 +114,7 @@ function Login() {
           </Grid>
         </Grid>
         <Typography variant="body1" align="center" gutterBottom>
-          Don't have an account?{" "}
-          <Link to="/signup">Sign Up</Link>
+          Don't have an account? <Link to="/signup">Sign Up</Link>
         </Typography>
       </form>
     </Container>
