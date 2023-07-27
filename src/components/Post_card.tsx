@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 interface Post {
-  id: number;
+  _id: string;
   title: string;
-  content: string;
+  description: string;
   author: string;
 }
 
@@ -16,22 +16,22 @@ function Post({ postDetails, userProf }: PostProps) {
   return (
     <>
       {userProf ? (
-        <Link to={`/post/${postDetails.id}`} className="">
+        <Link to={`/post/${postDetails._id}`} className="">
           <div
-            key={postDetails.id}
+            key={postDetails._id}
             className="bg-slate-50 shadow-md p-4 rounded-lg my-4"
           >
-            <p>{postDetails.content}</p>
+            <p>{postDetails.description}</p>
           </div>
         </Link>
       ) : (
         <div
-          key={postDetails.id}
+          key={postDetails._id}
           className="border border-gray-300 p-4 rounded-lg mx-auto max-w-2xl"
         >
-          <Link to={`/post/${postDetails.id}`} className="">
+          <Link to={`/post/${postDetails._id}`} className="">
             <h3 className="text-xl font-semibold mb-2">{postDetails.title}</h3>
-            <p className="text-lg mb-2">{postDetails.content}</p>
+            <p className="text-lg mb-2">{postDetails.description}</p>
             <p className="text-sm text-gray-500">
               Author: {postDetails.author}
             </p>
