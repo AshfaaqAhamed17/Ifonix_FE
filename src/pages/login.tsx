@@ -49,7 +49,20 @@ function Login() {
       // Handle successful login here (e.g., show success message, redirect to login)
       if (response) {
         console.log("Login successful!");
-        history("/admin"); // Redirect to the login page after successful signup
+        console.log(
+          "Login response userId:",
+          JSON.stringify(response.data.userId)
+        );
+        console.log("Login response:", JSON.stringify(response.data));
+        if (response.data.role === "admin") {
+          history("/admin");
+        } else if (response.data.role === "user") {
+          history("/"); // Redirect to the login page after successful signup
+        }
+        localStorage.setItem("userName", response.data.userName);
+        localStorage.setItem("email", response.data.email);
+        localStorage.setItem("role", response.data.role);
+        localStorage.setItem("userId", response.data.userId);
       }
     } catch (error) {
       // Handle login error here (e.g., show error message)

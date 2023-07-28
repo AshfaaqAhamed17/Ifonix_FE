@@ -1,6 +1,7 @@
 // AdminPage.tsx
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -8,18 +9,11 @@ import Navbar from "../components/navbar";
 import AdminQCard from "../components/AdminQCard";
 import AdminACard from "../components/AdminACard";
 
-// interface User {
-//   id: number;
-//   username: string;
-//   // Add more user properties as needed
-// }
-
-interface Question {
-  id: number;
+interface Post {
+  _id: string;
   title: string;
-  content: string;
-  userId: number;
-  approved: boolean;
+  description: string;
+  author: string;
 }
 
 interface Answer {
@@ -30,6 +24,30 @@ interface Answer {
 }
 
 function Admin() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  // useEffect(() => {
+  //   const getQuestions = async () => {
+  //     try {
+  //       const adminUnapproved = await axios.get(
+  //         "http://localhost:1100/api/v1/question/adminUnapproved"
+  //       );
+  //       console.log(adminUnapproved.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   getQuestions();
+  // }, []);
+
+  useEffect(() => {
+    // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
+    axios
+      .get("http://localhost:1100/api/v1/question/adminUnapproved")
+      .then((response) => {
+        setPosts(response.data);
+      });
+  }, []);
   // Dummy users
   // const dummyUsers: User[] = [
   //   { id: 1, username: "JohnDoe" },
@@ -38,30 +56,30 @@ function Admin() {
   //   // Add more dummy users here as needed
   // ];
   // Dummy questions
-  const dummyQuestions: Question[] = [
-    {
-      id: 1,
-      title: "Question 1",
-      content: "This is the content of Question 1.",
-      userId: 1,
-      approved: false,
-    },
-    {
-      id: 2,
-      title: "Question 2",
-      content: "This is the content of Question 2.",
-      userId: 2,
-      approved: false,
-    },
-    {
-      id: 3,
-      title: "Question 3",
-      content: "This is the content of Question 3.",
-      userId: 1,
-      approved: false,
-    },
-    // Add more dummy questions here as needed
-  ];
+  // const dummyQuestions: Post[] = [
+  //   {
+  //     id: 1,
+  //     title: "Question 1",
+  //     content: "This is the content of Question 1.",
+  //     userId: 1,
+  //     approved: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Question 2",
+  //     content: "This is the content of Question 2.",
+  //     userId: 2,
+  //     approved: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Question 3",
+  //     content: "This is the content of Question 3.",
+  //     userId: 1,
+  //     approved: false,
+  //   },
+  //   // Add more dummy questions here as needed
+  // ];
 
   // Dummy answers
   const dummyAnswers: Answer[] = [
@@ -101,7 +119,7 @@ function Admin() {
   };
   // Dummy data for number of posts
   const totalPosts = 100; // Replace with the actual total number of posts
-  const postsInReview = dummyQuestions.length; // Replace with the actual number of posts in review
+  const postsInReview = posts.length; // Replace with the actual number of posts in review
   const answersInReview = dummyAnswers.length; // Replace with the actual number of posts in review
 
   return (
@@ -139,8 +157,8 @@ function Admin() {
             </Box>
             <TabPanel value="post">
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                {dummyQuestions.map((post) => (
-                  <AdminQCard key={post.id} questionDetails={post} />
+                {posts.map((post) => (
+                  <AdminQCard key={post._id} questionDetails={post} />
                 ))}
               </div>
             </TabPanel>

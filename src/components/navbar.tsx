@@ -9,6 +9,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+import axios from "axios";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -23,11 +24,28 @@ function Navbar() {
 
   const [question, setQuestion] = useState(""); // State to store the question value
 
-  const handleUploadQuestion = () => {
+  const handleUploadQuestion = async () => {
     // Handle the upload question logic here
     // For example, you can send the question to the backend or store it in state
-    console.log("Uploading question:", question); // Log the question value
-    handleCloseModal();
+    // axios.post("YOUR_API_ENDPOINT", { question });
+    try {
+      const data = {
+        title: "Testing",
+        description: question,
+        author: localStorage.getItem("userId"),
+      };
+      const response = await axios.post(
+        "http://localhost:1100/api/v1/question/create",
+        data
+      );
+      console.log("Uploading question:", question); // Log the question value
+      if (response) {
+        console.log("Question uploaded successfully!");
+        handleCloseModal();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleChangeQuestion = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,11 +59,13 @@ function Navbar() {
         <div className="flex items-center">
           <div className="mx-10"></div>
           <ul className="flex items-center">
+            {localStorage.getItem("role") === "admin" ? (
+              <NavLink to="/admin">
+                <li className="mx-5 text-gray-500">Admin Dashboard</li>
+              </NavLink>
+            ) : null}
             <NavLink to="/">
               <li className="mx-5 text-gray-500">Home</li>
-            </NavLink>
-            <NavLink to="/about">
-              <li className="mx-5 text-gray-500">About</li>
             </NavLink>
           </ul>
         </div>
@@ -87,7 +107,7 @@ function Navbar() {
             </Dialog>
           </div>
           <div>
-            <NavLink to="/user/1">
+            <NavLink to={`/user/${localStorage.getItem("userId")}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -99,7 +119,8 @@ function Navbar() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                  d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                />
               </svg>
             </NavLink>
           </div>

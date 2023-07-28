@@ -9,11 +9,10 @@ import {
 } from "@mui/material";
 
 interface Question {
-  id: number;
+  _id: string;
   title: string;
-  content: string;
-  userId: number;
-  approved: boolean;
+  description: string;
+  author: string;
 }
 
 interface PostProps {
@@ -33,7 +32,7 @@ function AdminQCard({ questionDetails }: PostProps) {
     setFeedback("");
   };
 
-  const handleApprovePost = (postId: number) => {
+  const handleApprovePost = (postId: string) => {
     // Logic to handle approving the post
     console.log(`Post with ID ${postId} has been approved.`);
   };
@@ -47,18 +46,18 @@ function AdminQCard({ questionDetails }: PostProps) {
   return (
     <>
       <div
-        key={questionDetails.id}
+        key={questionDetails._id}
         className="p-4 border border-gray-300 mb-4 rounded-md shadow-md"
       >
         <h3 className="text-xl font-bold mb-2">{questionDetails.title}</h3>
-        <p className="text-lg mb-2">{questionDetails.content}</p>
+        <p className="text-lg mb-2">{questionDetails.description}</p>
         <p className="text-sm text-gray-500">
-          Author: {questionDetails.userId}
+          Author: {questionDetails.author}
         </p>
         <div className="flex justify-between mt-4">
           <button
             className="bg-green-500 text-white px-4 py-2 rounded-md"
-            onClick={() => handleApprovePost(questionDetails.id)}
+            onClick={() => handleApprovePost(questionDetails._id)}
           >
             Approve Post
           </button>
