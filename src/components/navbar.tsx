@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Upload } from "@mui/icons-material";
 import {
@@ -10,9 +10,37 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { NotificationImportant } from "@mui/icons-material"; // Import the bell icon
+
+interface Question {
+  _id: string;
+  title: string;
+  description: string;
+  author: string;
+  IsRejected: boolean;
+  rejectedfeedback: string;
+}
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [question, setQuestion] = useState(""); // State to store the question value
+  const [title, setTitle] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [notifications, setNotifications] = useState<Question[]>([]);
+
+  // const userId = localStorage.getItem("userId");
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:1100/api/v1/question/rejectedfeedback/${localStorage.getItem(
+          "userId"
+        )}`
+      )
+      .then((response) => {
+        setNotifications(response.data);
+      });
+  }, []);
 
   const handleOpenModal = () => {
     setOpen(true);
@@ -22,17 +50,14 @@ function Navbar() {
     setOpen(false);
   };
 
-  const [question, setQuestion] = useState(""); // State to store the question value
-
   const handleUploadQuestion = async () => {
-    // Handle the upload question logic here
-    // For example, you can send the question to the backend or store it in state
-    // axios.post("YOUR_API_ENDPOINT", { question });
     try {
       const data = {
-        title: "Testing",
+        title: title,
         description: question,
         author: localStorage.getItem("userId"),
+        IsAdminApproved:
+          localStorage.getItem("role") === "admin" ? true : false,
       };
       const response = await axios.post(
         "http://localhost:1100/api/v1/question/create",
@@ -42,6 +67,17 @@ function Navbar() {
       if (response) {
         console.log("Question uploaded successfully!");
         handleCloseModal();
+        Swal.fire({
+          icon: "success",
+          title:
+            localStorage.getItem("role") === "user"
+              ? "Question has been sent for approval!"
+              : "Question has been uploaded successfully!",
+          showConfirmButton: false,
+          timer: 3000,
+        }).then(() => {
+          location.reload();
+        });
       }
     } catch (err) {
       console.log(err);
@@ -51,6 +87,19 @@ function Navbar() {
   const handleChangeQuestion = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Update the question state when the user types in the TextField
     setQuestion(event.target.value);
+  };
+
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Update the question state when the user types in the TextField
+    setTitle(event.target.value);
+  };
+
+  const handleOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -70,6 +119,54 @@ function Navbar() {
           </ul>
         </div>
         <div className="flex mx-10 items-center space-x-4">
+          {/* {notifications.length < 0 ? (
+            <div></div>
+          ) : (
+            // <p>Have notifications</p> */}
+          <div>
+            <button
+              color="primary"
+              onClick={handleOpen}
+              className={`${notifications.length > 0 ? "" : "hidden"}    
+             `}
+            >
+              <NotificationImportant className="text-red-500" />{" "}
+              {/* Bell icon */}
+            </button>
+            <Dialog
+              open={modalOpen}
+              onClose={handleClose}
+              maxWidth="sm"
+              fullWidth
+            >
+              <DialogTitle textAlign={"center"}>Notifications</DialogTitle>
+              {notifications.map((notification) => (
+                <DialogContent>
+                  <div
+                    key={notification._id}
+                    className="p-4 border border-gray-300 mb-4"
+                  >
+                    <strong>
+                      <p>Question Title: {notification.title}</p>
+                    </strong>
+                    <p>Question: {notification.description}</p>
+                    <p>
+                      Rejected Feedback:{" "}
+                      <span style={{ color: "red" }}>
+                        {notification.rejectedfeedback}
+                      </span>
+                    </p>
+                  </div>
+                </DialogContent>
+              ))}
+              {/* Add your div content here */}
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
           <div>
             <button
               className="bg-slate-50 text-gray-500 py-2 px-4 rounded-lg shadow-md"
@@ -85,6 +182,17 @@ function Navbar() {
               fullWidth
             >
               <DialogTitle>Upload Question</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Title"
+                  type="text"
+                  fullWidth
+                  value={title} // Bind the value of the TextField to the question state
+                  onChange={handleChangeTitle} // Handle the change event to update the question state
+                />
+              </DialogContent>
               <DialogContent>
                 <TextField
                   autoFocus
@@ -107,7 +215,10 @@ function Navbar() {
             </Dialog>
           </div>
           <div>
-            <NavLink to={`/user/${localStorage.getItem("userId")}`}>
+            <NavLink
+              to={`/user/${localStorage.getItem("userId")}`}
+              className="flex items-center"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -122,6 +233,9 @@ function Navbar() {
                   d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
+              <strong>
+                <p>{localStorage.getItem("userName")}</p>
+              </strong>
             </NavLink>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -9,9 +9,11 @@ import {
 } from "@mui/material";
 
 interface Answer {
+  IsRejected: boolean;
   id: number;
-  postId: number;
-  content: string;
+  questionId: number;
+  question: string;
+  answer: string;
   author: string;
 }
 
@@ -21,7 +23,7 @@ interface PostProps {
 }
 
 function AdminACard({ answerDetails }: PostProps) {
-  const [selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
+  const [_selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [feedback, setFeedback] = useState("");
 
@@ -48,7 +50,8 @@ function AdminACard({ answerDetails }: PostProps) {
         key={answerDetails.id}
         className="p-4 border border-gray-300 mb-4 rounded-md shadow-md"
       >
-        <p>{answerDetails.content}</p>
+        <p>Question: {answerDetails.question}</p>
+        <p>Answer: {answerDetails.answer}</p>
         <p>Author: {answerDetails.author}</p>
         <div className="flex justify-between mt-4">
           <button

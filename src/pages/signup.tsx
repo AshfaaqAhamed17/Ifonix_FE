@@ -11,6 +11,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 function Signup() {
   const history = useNavigate();
@@ -41,7 +42,12 @@ function Signup() {
     event.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      Swal.fire({
+        icon: "error",
+        title: "Passwords do not match!",
+        showConfirmButton: false,
+        timer: 3000,
+      });
       console.error("Passwords do not match!");
       return;
     }
@@ -71,110 +77,112 @@ function Signup() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
-        Signup
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              label="Username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              variant="outlined"
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              variant="outlined"
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Password"
-              type={formData.showPassword ? "text" : "password"}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              variant="outlined"
-              fullWidth
-              required
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() =>
-                        handleTogglePasswordVisibility("showPassword")
-                      }
-                    >
-                      {formData.showPassword ? (
-                        <VisibilityOff />
-                      ) : (
-                        <Visibility />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Confirm Password"
-              type={formData.showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              variant="outlined"
-              fullWidth
-              required
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() =>
-                        handleTogglePasswordVisibility("showConfirmPassword")
-                      }
-                    >
-                      {formData.showConfirmPassword ? (
-                        <VisibilityOff />
-                      ) : (
-                        <Visibility />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              size="large"
-            >
-              Sign Up
-            </Button>
-          </Grid>
-        </Grid>
-        <Typography variant="body1" align="center" gutterBottom>
-          Already have an account? <Link to="/login">Login</Link>
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <Container maxWidth="sm">
+        <Typography variant="h4" align="center" gutterBottom>
+          Signup
         </Typography>
-      </form>
-    </Container>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Password"
+                type={formData.showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+                required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() =>
+                          handleTogglePasswordVisibility("showPassword")
+                        }
+                      >
+                        {formData.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Confirm Password"
+                type={formData.showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+                required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() =>
+                          handleTogglePasswordVisibility("showConfirmPassword")
+                        }
+                      >
+                        {formData.showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                size="large"
+              >
+                Sign Up
+              </Button>
+            </Grid>
+          </Grid>
+          <Typography variant="body1" align="center" gutterBottom>
+            Already have an account? <Link to="/login">Login</Link>
+          </Typography>
+        </form>
+      </Container>
+    </div>
   );
 }
 

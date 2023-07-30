@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function Login() {
   const history = useNavigate();
@@ -63,74 +64,90 @@ function Login() {
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("role", response.data.role);
         localStorage.setItem("userId", response.data.userId);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Login failed!",
+          text: "Invalid credentials!",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid credentials!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       // Handle login error here (e.g., show error message)
       console.error("Login failed:", error);
     }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
-        Login
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              label="Email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              variant="outlined"
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Password"
-              type={formData.showPassword ? "text" : "password"}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              variant="outlined"
-              fullWidth
-              required
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePasswordVisibility}>
-                      {formData.showPassword ? (
-                        <VisibilityOff />
-                      ) : (
-                        <Visibility />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              size="large"
-            >
-              Login
-            </Button>
-          </Grid>
-        </Grid>
-        <Typography variant="body1" align="center" gutterBottom>
-          Don't have an account? <Link to="/signup">Sign Up</Link>
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <Container maxWidth="sm" className="">
+        <Typography variant="h4" align="center" gutterBottom>
+          Login
         </Typography>
-      </form>
-    </Container>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Password"
+                type={formData.showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+                required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleTogglePasswordVisibility}>
+                        {formData.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                size="large"
+              >
+                Login
+              </Button>
+            </Grid>
+          </Grid>
+          <Typography variant="body1" align="center" gutterBottom>
+            Don't have an account? <Link to="/signup">Sign Up</Link>
+          </Typography>
+        </form>
+      </Container>
+    </div>
   );
 }
 

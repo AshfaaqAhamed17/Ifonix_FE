@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -7,12 +7,17 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+import axios from "axios";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
 
 interface Question {
   _id: string;
   title: string;
   description: string;
   author: string;
+  IsRejected: boolean;
+  rejectedfeedback: string;
 }
 
 interface PostProps {
@@ -20,21 +25,75 @@ interface PostProps {
 }
 
 function AdminQCard({ questionDetails }: PostProps) {
-  const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(
+  const [_selectedQuestion, setSelectedQuestion] = useState<Question | null>(
     null
   );
   const [showModal, setShowModal] = useState(false);
   const [feedback, setFeedback] = useState("");
 
   const handleCloseModal = () => {
-    console.log("Feedback sent.", feedback);
     setShowModal(false);
     setFeedback("");
   };
 
-  const handleApprovePost = (postId: string) => {
+  const handleRejectAndCloseModal = async (postId: string) => {
+    const response = await axios.put(
+      `http://localhost:1100/api/v1/question/reject/${postId}`,
+      { rejectedfeedback: feedback, IsRejected: true }
+    );
+    if (response) {
+      console.log("Feedback sent.", feedback);
+      setShowModal(false);
+      setFeedback("");
+      Swal.fire({
+        icon: "success",
+        title: "Feedback sent successfully!",
+        showConfirmButton: false,
+        timer: 3000,
+      }).then(() => {
+        location.reload();
+      });
+    } else {
+      console.log("Feedback not sent.");
+      setShowModal(false);
+      setFeedback("");
+      Swal.fire({
+        icon: "success",
+        title: "Feedback not sent successfully!",
+        showConfirmButton: false,
+        timer: 3000,
+      }).then(() => {
+        location.reload();
+      });
+    }
+  };
+
+  const handleApprovePost = async (postId: string) => {
     // Logic to handle approving the post
-    console.log(`Post with ID ${postId} has been approved.`);
+    const response = await axios.put(
+      `http://localhost:1100/api/v1/question/approve/${postId}`
+    );
+    if (response) {
+      console.log(`Post with ID ${postId} has been approved.`);
+      Swal.fire({
+        icon: "success",
+        title: "Post has been approved!",
+        showConfirmButton: false,
+        timer: 3000,
+      }).then(() => {
+        location.reload();
+      });
+    } else {
+      console.log(`Post with ID ${postId} has not been approved.`);
+      Swal.fire({
+        icon: "success",
+        title: "Post has not been approved!",
+        showConfirmButton: false,
+        timer: 3000,
+      }).then(() => {
+        location.reload();
+      });
+    }
   };
 
   const handleRejectQuestion = (question: Question) => {
@@ -43,14 +102,52 @@ function AdminQCard({ questionDetails }: PostProps) {
     setShowModal(true);
   };
 
+  const handleDeletePost = async (postId: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delte this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await axios.delete(
+          `http://localhost:1100/api/v1/question/${postId}`
+        );
+        if (response) {
+          console.log("QUESTION deleted successfully!");
+          Swal.fire({
+            text: "Your question has been deleted.",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 5000,
+          }).then(() => {
+            location.reload();
+          });
+        }
+      }
+    });
+  };
+
   return (
     <>
       <div
         key={questionDetails._id}
         className="p-4 border border-gray-300 mb-4 rounded-md shadow-md"
       >
-        <h3 className="text-xl font-bold mb-2">{questionDetails.title}</h3>
-        <p className="text-lg mb-2">{questionDetails.description}</p>
+        <p className="text-lg mb-2">Question Title: {questionDetails.title}</p>
+        <p className="text-lg mb-2">Question: {questionDetails.description}</p>
+
+        {questionDetails.rejectedfeedback ? (
+          <p className="text-lg mb-2">
+            Rejected feedback: {questionDetails.rejectedfeedback}
+          </p>
+        ) : (
+          ""
+        )}
+
         <p className="text-sm text-gray-500">
           Author: {questionDetails.author}
         </p>
@@ -62,10 +159,22 @@ function AdminQCard({ questionDetails }: PostProps) {
             Approve Post
           </button>
           <button
-            className="bg-red-500 text-white px-4 py-2 rounded-md"
+            className={`bg-red-500 text-white px-4 py-2 rounded-md ${
+              questionDetails.IsRejected ? "hidden" : ""
+            }    
+            `}
             onClick={() => handleRejectQuestion(questionDetails)}
           >
             Reject Post
+          </button>
+          <button
+            // className="text-red-500 mt-2 flex items-center self-end"
+            className={`text-center text-red-500 hover:text-white hover:bg-red-500 `}
+            onClick={() => handleDeletePost(questionDetails._id)}
+          >
+            <span className="material-icons">
+              <DeleteIcon />
+            </span>{" "}
           </button>
         </div>
       </div>
@@ -92,7 +201,7 @@ function AdminQCard({ questionDetails }: PostProps) {
           <Button
             onClick={() => {
               setSelectedQuestion(null);
-              handleCloseModal();
+              handleRejectAndCloseModal(questionDetails._id);
             }}
             color="error"
           >

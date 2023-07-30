@@ -7,38 +7,29 @@ import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Navbar from "../components/navbar";
 import AdminQCard from "../components/AdminQCard";
-import AdminACard from "../components/AdminACard";
 
 interface Post {
   _id: string;
   title: string;
   description: string;
   author: string;
+  IsRejected: boolean;
+  rejectedfeedback: string;
 }
 
-interface Answer {
-  id: number;
-  postId: number;
-  content: string;
-  author: string;
-}
+// interface Answer {
+//   id: number;
+//   questionId: number;
+//   question: string;
+//   answer: string;
+//   author: string;
+//   IsRejected: boolean;
+// }
 
 function Admin() {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [answers, setAnswers] = useState<Answer[]>([]);
-  // useEffect(() => {
-  //   const getQuestions = async () => {
-  //     try {
-  //       const adminUnapproved = await axios.get(
-  //         "http://localhost:1100/api/v1/question/adminUnapproved"
-  //       );
-  //       console.log(adminUnapproved.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getQuestions();
-  // }, []);
+  const [rejectedPosts, setRejectedPosts] = useState<Post[]>([]);
+  // const [answers, setAnswers] = useState<Answer[]>([]);
 
   useEffect(() => {
     // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
@@ -47,68 +38,19 @@ function Admin() {
       .then((response) => {
         setPosts(response.data);
       });
-  }, []);
-  // Dummy users
-  // const dummyUsers: User[] = [
-  //   { id: 1, username: "JohnDoe" },
-  //   { id: 2, username: "JaneSmith" },
-  //   { id: 3, username: "PeterParker" },
-  //   // Add more dummy users here as needed
-  // ];
-  // Dummy questions
-  // const dummyQuestions: Post[] = [
-  //   {
-  //     id: 1,
-  //     title: "Question 1",
-  //     content: "This is the content of Question 1.",
-  //     userId: 1,
-  //     approved: false,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Question 2",
-  //     content: "This is the content of Question 2.",
-  //     userId: 2,
-  //     approved: false,
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Question 3",
-  //     content: "This is the content of Question 3.",
-  //     userId: 1,
-  //     approved: false,
-  //   },
-  //   // Add more dummy questions here as needed
-  // ];
 
-  // Dummy answers
-  const dummyAnswers: Answer[] = [
-    {
-      id: 1,
-      postId: 1,
-      content: "This is the first answer for Question 1.",
-      author: "Alice",
-    },
-    {
-      id: 2,
-      postId: 1,
-      content: "This is the second answer for Question 1.",
-      author: "Bob",
-    },
-    {
-      id: 3,
-      postId: 2,
-      content: "This is the first answer for Question 2.",
-      author: "Charlie",
-    },
-    {
-      id: 4,
-      postId: 3,
-      content: "This is the first answer for Question 3.",
-      author: "Charlie",
-    },
-    // Add more dummy answers here as needed
-  ];
+    axios
+      .get("http://localhost:1100/api/v1/question/adminRejected")
+      .then((response) => {
+        setRejectedPosts(response.data);
+      });
+
+    // axios
+    //   .get("http://localhost:1100/api/v1/answer/unapprovedAnswers")
+    //   .then((response) => {
+    //     setAnswers(response.data);
+    //   });
+  }, []);
 
   const [value, setValue] = React.useState("post");
 
@@ -120,7 +62,7 @@ function Admin() {
   // Dummy data for number of posts
   const totalPosts = 100; // Replace with the actual total number of posts
   const postsInReview = posts.length; // Replace with the actual number of posts in review
-  const answersInReview = dummyAnswers.length; // Replace with the actual number of posts in review
+  const answersInReview = rejectedPosts.length; // Replace with the actual number of posts in review
 
   return (
     <>
@@ -137,7 +79,7 @@ function Admin() {
             <p className="text-4xl font-semibold">{postsInReview}</p>
           </div>
           <div className="bg-green-500 text-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold mb-2">Comments in Review</h3>
+            <h3 className="text-xl font-bold mb-2">Rejected Posts</h3>
             <p className="text-4xl font-semibold">{answersInReview}</p>
           </div>
         </div>
@@ -151,8 +93,8 @@ function Admin() {
                 aria-label="lab API tabs example"
                 centered
               >
-                <Tab label="Post Approval" value="post" />
-                <Tab label="Answer Approval" value="answer" />
+                <Tab label="Posts for Approval" value="post" />
+                <Tab label="Rejected Posts" value="rejectsPosts" />
               </TabList>
             </Box>
             <TabPanel value="post">
@@ -162,10 +104,10 @@ function Admin() {
                 ))}
               </div>
             </TabPanel>
-            <TabPanel value="answer">
+            <TabPanel value="rejectsPosts">
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                {dummyAnswers.map((answer) => (
-                  <AdminACard key={answer.id} answerDetails={answer} />
+                {rejectedPosts.map((post) => (
+                  <AdminQCard key={post._id} questionDetails={post} />
                 ))}
               </div>
             </TabPanel>

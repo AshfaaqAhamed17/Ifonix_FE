@@ -14,33 +14,6 @@ interface Post {
 
 function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
-  // const dummyPosts: Post[] = [
-  //   {
-  //     id: 1,
-  //     title: "Frontend",
-  //     content: "Why is Front end development easy?",
-  //     author: "John Doe",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Backend",
-  //     content: "Why is Back end development easy?",
-  //     author: "Jane Smith",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Cyber",
-  //     content: "Cyber security is important?",
-  //     author: "Peter Parker",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Deployment",
-  //     content: "How to deploy a website?",
-  //     author: "Robert Downey Jr.",
-  //   },
-  //   // Add more dummy posts here as needed
-  // ];
 
   // State variable for the search query
   const [searchQuery, setSearchQuery] = useState<string>("");

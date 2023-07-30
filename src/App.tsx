@@ -13,23 +13,46 @@ function App() {
     localStorage.getItem("role") === "admin" ? true : false;
   console.log("isAuthenticated:", isAuthenticated);
 
+  const isLoggedIn = localStorage.getItem("userId") ? true : false;
+  console.log("isLoggedIn:", isLoggedIn);
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />F
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/post/:id" element={<PostDetails />} />
-          <Route path="/user/:userId" element={<UserProfile />} />
+          {isLoggedIn ? (
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/post/:id" element={<PostDetails />} />
+              <Route path="/user/:userId" element={<UserProfile />} />
 
-          {isAuthenticated ? (
-            // Show Admin component only for authenticated users
-            <Route path="/admin" element={<Admin />} />
+              {isAuthenticated ? (
+                // Show Admin component only for authenticated users
+                <Route path="/admin" element={<Admin />} />
+              ) : (
+                // Redirect unauthenticated users to the home page
+                <Route path="/admin" element={<Navigate to="/" />} />
+              )}
+            </>
           ) : (
-            // Redirect unauthenticated users to the home page
-            <Route path="/admin" element={<Navigate to="/" />} />
+            <>
+              <Route path="/*" element={<Navigate to="/login" />} />
+              {/* <Route path="/" element={<Home />} /> */}
+              {/* <Route path="/signup" element={<Signup />} /> */}
+              <Route path="/login" element={<Login />} />
+              {/* <Route path="/about" element={<About />} /> */}
+              {/* <Route path="/post/:id" element={<PostDetails />} /> */}
+              {/* <Route path="/user/:userId" element={<UserProfile />} /> */}
+              {isAuthenticated ? (
+                // Show Admin component only for authenticated users
+                <Route path="/admin" element={<Admin />} />
+              ) : (
+                // Redirect unauthenticated users to the home page
+                <Route path="/admin" element={<Navigate to="/" />} />
+              )}
+            </>
           )}
         </Routes>
       </BrowserRouter>
