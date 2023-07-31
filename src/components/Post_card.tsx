@@ -5,6 +5,7 @@ interface Post {
   title: string;
   description: string;
   author: string;
+  createdDate: string;
 }
 
 interface PostProps {
@@ -30,6 +31,9 @@ function Post({ postDetails, userProf }: PostProps) {
           className="border border-gray-300 p-4 rounded-lg mx-auto max-w-2xl"
         >
           <Link to={`/post/${postDetails._id}`} className="">
+            <p className="text-right text-sm text-gray-400">
+              {postDetails.createdDate.split("T")[0]}
+            </p>
             <h3 className="text-xl font-semibold mb-2">{postDetails.title}</h3>
             <p className="text-lg mb-2">{postDetails.description}</p>
             <p className="text-sm text-gray-500">

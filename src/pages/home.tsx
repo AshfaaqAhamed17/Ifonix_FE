@@ -13,8 +13,16 @@ interface Post {
   createdDate: string;
 }
 
+interface User {
+  _id: string;
+  userName: string;
+  email: string;
+  role: string;
+}
+
 function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [authors, setAuthors] = useState<User[]>([]);
 
   // State variable for the search query
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -28,6 +36,12 @@ function Home() {
       .then((response) => {
         setPosts(response.data);
       });
+
+    localStorage.getItem("role") === "admin"
+      ? axios.get("http://localhost:1100/api/v1/auth/all").then((response) => {
+          setAuthors(response.data);
+        })
+      : null;
   }, []);
 
   // Function to handle the search bar input change
@@ -104,7 +118,7 @@ function Home() {
     <>
       <Navbar />
       <div className="container mx-auto px-4 py-8 space-y-5 text-center">
-        <div className="bg-black py-10 w-3/5 mx-auto space-y-4 mb-20">
+        <div className="bg-slate-500 py-10 w-3/5 mx-auto space-y-4 mb-20">
           <h1 className="font-bold text-white">NEW PRODUCT LAUNCH</h1>
           <div className="flex justify-center items-center">
             <img
@@ -119,7 +133,6 @@ function Home() {
           className={`${
             localStorage.getItem("role") === "admin" ? "" : "hidden"
           } flex relative mx-auto max-w-md space-x-4`}
-          // className=""
         >
           <select
             id="date-range"
@@ -141,21 +154,12 @@ function Home() {
             className="border border-gray-300 px-4 py-2 w-full rounded-md"
           >
             <option value="">Select Author</option>
-            {posts.map((post) => (
-              <option value={post.author} key={post._id}>
-                {post.author}
+            {authors.map((author) => (
+              <option value={author.userName} key={author._id}>
+                {author.userName}
               </option>
-              // <Post_card postDetails={post} userProf={false} key={post._id} />
             ))}
           </select>
-
-          {/* <input
-            type="text"
-            value={authorSearchQuery}
-            onChange={handleAuthorSearchInputChange}
-            className="border border-gray-300 px-4 py-2 w-full rounded-md"
-            placeholder="Search for author..."
-          /> */}
         </div>
         <div className="relative mx-auto max-w-md">
           <input

@@ -53,18 +53,6 @@ function AdminQCard({ questionDetails }: PostProps) {
       }).then(() => {
         location.reload();
       });
-    } else {
-      console.log("Feedback not sent.");
-      setShowModal(false);
-      setFeedback("");
-      Swal.fire({
-        icon: "success",
-        title: "Feedback not sent successfully!",
-        showConfirmButton: false,
-        timer: 3000,
-      }).then(() => {
-        location.reload();
-      });
     }
   };
 
@@ -78,16 +66,6 @@ function AdminQCard({ questionDetails }: PostProps) {
       Swal.fire({
         icon: "success",
         title: "Post has been approved!",
-        showConfirmButton: false,
-        timer: 3000,
-      }).then(() => {
-        location.reload();
-      });
-    } else {
-      console.log(`Post with ID ${postId} has not been approved.`);
-      Swal.fire({
-        icon: "success",
-        title: "Post has not been approved!",
         showConfirmButton: false,
         timer: 3000,
       }).then(() => {
@@ -187,6 +165,8 @@ function AdminQCard({ questionDetails }: PostProps) {
         <DialogTitle>Feedback for Rejected Post</DialogTitle>
         <DialogContent>
           <TextField
+            style={{ marginTop: "0.5rem" }}
+            autoFocus
             label="Feedback"
             multiline
             rows={4}
@@ -199,6 +179,7 @@ function AdminQCard({ questionDetails }: PostProps) {
         <DialogActions>
           <Button onClick={handleCloseModal}>Close</Button>
           <Button
+            disabled={feedback === "" ? true : false}
             onClick={() => {
               setSelectedQuestion(null);
               handleRejectAndCloseModal(questionDetails._id);

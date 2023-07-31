@@ -1,5 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 interface Answer {
   _id: string;
@@ -7,6 +8,7 @@ interface Answer {
   answer: string;
   author: string;
   authorId: string;
+  createdDate: string;
 }
 
 interface answerProps {
@@ -15,26 +17,33 @@ interface answerProps {
 }
 
 function postdetails({ answer, isUserProf }: answerProps) {
-  console.log("Answer ID: >>>> " + answer._id);
-  console.log("Answer: >>>> " + answer.answer);
-  console.log("Answer Author: >>>> " + answer.author);
-  console.log("Answer Author ID: >>>> " + answer.authorId);
-  console.log("isUserProf: >>>> " + isUserProf);
-
   const handleDeleteAnswer = async (answerId: string) => {
-    const response = await axios.delete(
-      `http://localhost:1100/api/v1/answer/${answerId}`
-    );
-    if (response) {
-      console.log("Answer deleted successfully!");
-      alert("Answer deleted successfully!");
-      location.reload();
-    } else {
-      console.log("Answer not deleted.");
-      alert("Answer not deleted.");
-    }
-    console.log("Deleting answer with ID " + answerId);
-    // ... (handle delete answer logic here)
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delte this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await axios.delete(
+          `http://localhost:1100/api/v1/answer/${answerId}`
+        );
+        if (response) {
+          console.log("QUESTION deleted successfully!");
+          Swal.fire({
+            text: "Your question has been deleted.",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 3000,
+          }).then(() => {
+            location.reload();
+          });
+        }
+      }
+    });
   };
 
   return (
@@ -42,6 +51,9 @@ function postdetails({ answer, isUserProf }: answerProps) {
       key={answer._id}
       className="bg-white shadow-md p-4 rounded-lg flex flex-col"
     >
+      <p className="text-right text-sm text-gray-400">
+        {answer.createdDate.split("T")[0]}
+      </p>
       <p className="mb-2">{answer.answer}</p>
       <p className="text-sm text-gray-500">Author: {answer.author}</p>
       <button

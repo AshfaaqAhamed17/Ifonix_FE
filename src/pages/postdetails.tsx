@@ -16,6 +16,7 @@ interface Post {
   description: string;
   author: string;
   authorId: string;
+  createdDate: string;
 }
 
 interface Answer {
@@ -24,6 +25,7 @@ interface Answer {
   answer: string;
   author: string;
   authorId: string;
+  createdDate: string;
 }
 
 function PostDetails() {
@@ -75,18 +77,33 @@ function PostDetails() {
     return <div>Loading...</div>;
   }
 
-  const handleDeletePost = async (postId: string) => {
-    const response = await axios.delete(
-      `http://localhost:1100/api/v1/question/${postId}`
-    );
-    if (response) {
-      console.log("QUESTION deleted successfully!");
-      alert("QUESTION deleted successfully!");
-      history("/");
-    } else {
-      console.log("QUESTION not deleted.");
-      alert("QUESTION not deleted.");
-    }
+  const handleDeletePost = (postId: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delte this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await axios.delete(
+          `http://localhost:1100/api/v1/question/${postId}`
+        );
+        if (response) {
+          console.log("QUESTION deleted successfully!");
+          Swal.fire({
+            text: "Your question has been deleted.",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 3000,
+          }).then(() => {
+            history("/home");
+          });
+        }
+      }
+    });
   };
 
   const handleSubmitAnswer = async () => {
@@ -104,14 +121,15 @@ function PostDetails() {
       );
       console.log("Uploading question:", answerText); // Log the question value
       if (response) {
-        console.log("ANSWER uploaded successfully!");
+        console.log("Comment uploaded successfully!");
         Swal.fire({
           icon: "success",
-          title: "Question has been uploaded successfully!",
+          title: "Comment has been uploaded successfully!",
           showConfirmButton: false,
           timer: 3000,
         }).then(() => {
-          location.reload();
+          setAnswerText("");
+          setAnswers([...answers, response.data]);
         });
       }
     } catch (err) {
@@ -130,6 +148,9 @@ function PostDetails() {
       <div className="p-4 text-center min-h-screen">
         <div>
           {/* <h1 className="mb-4">{post.title}</h1> */}
+          <p className="text-right text-sm text-gray-400">
+            {post.createdDate.split("T")[0]}
+          </p>
           <h2 className="text-2xl font-bold mb-4">{post.title}</h2>
           <p>{post.description}</p>
           <p>Author: {post.author}</p>
@@ -179,7 +200,8 @@ function PostDetails() {
           />
           <Button
             variant="contained"
-            className="ml-2 py-4 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+            disabled={!answerText}
+            className={`ml-2 py-4 bg-blue-500 text-white rounded-full hover:bg-blue-600`}
             onClick={handleSubmitAnswer}
             style={{ minWidth: "48px" }} // Set a minimum width for the circular button
           >

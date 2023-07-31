@@ -47,6 +47,8 @@ function Navbar() {
   };
 
   const handleCloseModal = () => {
+    setQuestion("");
+    setTitle("");
     setOpen(false);
   };
 
@@ -214,7 +216,11 @@ function Navbar() {
                 <Button onClick={handleCloseModal} color="primary">
                   Cancel
                 </Button>
-                <Button onClick={handleUploadQuestion} color="primary">
+                <Button
+                  disabled={!question || !title}
+                  onClick={handleUploadQuestion}
+                  color="primary"
+                >
                   Upload
                 </Button>
               </DialogActions>
