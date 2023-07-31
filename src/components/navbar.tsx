@@ -105,8 +105,13 @@ function Navbar() {
   return (
     <>
       <nav className="bg-slate-100 flex justify-between backdrop-blur-3xl py-2 w-screen">
-        <div className="flex items-center">
-          <div className="mx-10"></div>
+        <div className="flex items-center ms-5">
+          <NavLink to="/">
+            <h1 className="text-4xl font-bold text-slate-700 hover:text-blue-600">
+              Apple House
+            </h1>
+          </NavLink>
+          {/* <div className="mx-5"></div> */}
           <ul className="flex items-center">
             {localStorage.getItem("role") === "admin" ? (
               <NavLink to="/admin">
@@ -118,11 +123,12 @@ function Navbar() {
             </NavLink>
           </ul>
         </div>
+
+        {/* <div className="flex items-center">
+
+        </div> */}
+
         <div className="flex mx-10 items-center space-x-4">
-          {/* {notifications.length < 0 ? (
-            <div></div>
-          ) : (
-            // <p>Have notifications</p> */}
           <div>
             <button
               color="primary"

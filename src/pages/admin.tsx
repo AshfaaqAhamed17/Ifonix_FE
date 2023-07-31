@@ -17,15 +17,6 @@ interface Post {
   rejectedfeedback: string;
 }
 
-// interface Answer {
-//   id: number;
-//   questionId: number;
-//   question: string;
-//   answer: string;
-//   author: string;
-//   IsRejected: boolean;
-// }
-
 function Admin() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [rejectedPosts, setRejectedPosts] = useState<Post[]>([]);
