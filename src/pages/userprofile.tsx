@@ -16,7 +16,8 @@ interface Question {
   title: string;
   description: string;
   author: string;
-  userId: string; // The ID of the user who asked the question
+  userId: string;
+  createdDate: string;
 }
 
 function UserProfile() {
