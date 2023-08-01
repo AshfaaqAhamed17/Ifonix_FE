@@ -32,14 +32,14 @@ function Home() {
   useEffect(() => {
     // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
     axios
-      .get("http://3.110.127.251:1100/api/v1/question/adminApproved")
+      .get("http://13.127.206.58:1100/api/v1/question/adminApproved")
       .then((response) => {
         setPosts(response.data);
       });
 
     localStorage.getItem("role") === "admin"
       ? axios
-          .get("http://3.110.127.251:1100/api/v1/auth/all")
+          .get("http://13.127.206.58:1100/api/v1/auth/all")
           .then((response) => {
             setAuthors(response.data);
           })
@@ -124,7 +124,8 @@ function Home() {
           <h1 className="font-bold text-white">NEW PRODUCT LAUNCH</h1>
           <div className="flex justify-center items-center">
             <img
-              src="src\assets\images\banner2.gif"
+              // src="src\assets\images\banner2.gif"
+              src="https://media.tenor.com/6oZXKmRstsMAAAAC/apple-apple-iphone.gif"
               alt="image?"
               className="rounded"
             />

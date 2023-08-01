@@ -25,19 +25,19 @@ function Admin() {
   useEffect(() => {
     // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
     axios
-      .get("http://3.110.127.251:1100/api/v1/question/adminUnapproved")
+      .get("http://13.127.206.58:1100/api/v1/question/adminUnapproved")
       .then((response) => {
         setPosts(response.data);
       });
 
     axios
-      .get("http://3.110.127.251:1100/api/v1/question/adminRejected")
+      .get("http://13.127.206.58:1100/api/v1/question/adminRejected")
       .then((response) => {
         setRejectedPosts(response.data);
       });
 
     // axios
-    //   .get("http://localhost:1100/api/v1/answer/unapprovedAnswers")
+    //   .get("http://13.127.206.58:1100/api/v1/answer/unapprovedAnswers")
     //   .then((response) => {
     //     setAnswers(response.data);
     //   });

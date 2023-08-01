@@ -47,7 +47,7 @@ function PostDetails() {
   useEffect(() => {
     // Fetch the list of questions from the server
     axios
-      .get("http://localhost:1100/api/v1/question/adminApproved")
+      .get("http://13.127.206.58:1100/api/v1/question/adminApproved")
       .then((response) => {
         // Find the question with the matching postId
         const foundPost = response.data.find(
@@ -59,7 +59,7 @@ function PostDetails() {
         // If the post is found, fetch the answers associated with the post
         if (foundPost) {
           axios
-            .get(`http://localhost:1100/api/v1/answer/approved/${postId}`)
+            .get(`http://13.127.206.58:1100/api/v1/answer/approved/${postId}`)
             .then((answersResponse) => {
               setAnswers(answersResponse.data);
             })
@@ -89,7 +89,7 @@ function PostDetails() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const response = await axios.delete(
-          `http://localhost:1100/api/v1/question/${postId}`
+          `http://13.127.206.58:1100/api/v1/question/${postId}`
         );
         if (response) {
           console.log("QUESTION deleted successfully!");
@@ -116,7 +116,7 @@ function PostDetails() {
         author: localStorage.getItem("userId"),
       };
       const response = await axios.post(
-        "http://localhost:1100/api/v1/answer/create",
+        "http://13.127.206.58:1100/api/v1/answer/create",
         answerData
       );
       console.log("Uploading question:", answerText); // Log the question value
