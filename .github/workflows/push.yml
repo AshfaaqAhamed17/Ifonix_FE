@@ -1,31 +1,19 @@
-name: CI/CD
+name: Upload Website
 
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
-      - master
+    - master
 
 jobs:
-  primary:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
-      - name: install dependencies
-        run: npm install
-      - name: build
-        run: npm run build
-
-      # should save these keys in GitHub, settings of the project, secrets:
-      # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-      - name: aws deploy
-        env:
-           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: BUILD_DIRECTORY=build BUCKET_NAME=ifonixapp npm run deploy-aws
+    - uses: actions/checkout@master
+    - uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_S3_BUCKET: ${{ ifonixapp }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
