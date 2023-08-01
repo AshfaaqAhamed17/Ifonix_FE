@@ -29,7 +29,7 @@ function postdetails({ answer, isUserProf }: answerProps) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const response = await axios.delete(
-          `http://3.110.127.251:1100/api/v1/answer/${answerId}`
+          `http://13.127.206.58:1100/api/v1/answer/${answerId}`
         );
         if (response) {
           console.log("QUESTION deleted successfully!");

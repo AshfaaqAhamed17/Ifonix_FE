@@ -37,14 +37,14 @@ function UserProfile() {
 
   useEffect(() => {
     // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
-    axios.get("http://3.110.127.251:1100/api/v1/auth/all").then((response) => {
+    axios.get("http://13.127.206.58:1100/api/v1/auth/all").then((response) => {
       setUser(
         response.data.find((user: { _id: string }) => user._id === userId) ||
           null
       );
     });
     axios
-      .get("http://3.110.127.251:1100/api/v1/question/adminApproved")
+      .get("http://13.127.206.58:1100/api/v1/question/adminApproved")
       .then((response) => {
         // setPosts(response.data);
         setUserQuestions(
