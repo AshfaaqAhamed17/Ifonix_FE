@@ -32,15 +32,17 @@ function Home() {
   useEffect(() => {
     // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
     axios
-      .get("http://localhost:1100/api/v1/question/adminApproved")
+      .get("http://3.110.127.251:1100/api/v1/question/adminApproved")
       .then((response) => {
         setPosts(response.data);
       });
 
     localStorage.getItem("role") === "admin"
-      ? axios.get("http://localhost:1100/api/v1/auth/all").then((response) => {
-          setAuthors(response.data);
-        })
+      ? axios
+          .get("http://3.110.127.251:1100/api/v1/auth/all")
+          .then((response) => {
+            setAuthors(response.data);
+          })
       : null;
   }, []);
 

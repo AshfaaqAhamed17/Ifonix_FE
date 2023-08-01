@@ -44,7 +44,7 @@ function Login() {
       };
       // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for login
       const response = await axios.post(
-        "http://localhost:1100/api/v1/auth/login",
+        "http://3.110.127.251:1100/api/v1/auth/login",
         data
       );
       // Handle successful login here (e.g., show success message, redirect to login)

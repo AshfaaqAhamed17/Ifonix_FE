@@ -33,7 +33,7 @@ function Navbar() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:1100/api/v1/question/rejectedfeedback/${localStorage.getItem(
+        `http://3.110.127.251:1100/api/v1/question/rejectedfeedback/${localStorage.getItem(
           "userId"
         )}`
       )
@@ -62,7 +62,7 @@ function Navbar() {
           localStorage.getItem("role") === "admin" ? true : false,
       };
       const response = await axios.post(
-        "http://localhost:1100/api/v1/question/create",
+        "http://3.110.127.251:1100/api/v1/question/create",
         data
       );
       console.log("Uploading question:", question); // Log the question value

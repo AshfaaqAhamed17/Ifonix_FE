@@ -62,7 +62,7 @@ function Signup() {
       console.log("Signup form data:", JSON.stringify(data));
       // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for signup
       const response = await axios.post(
-        "http://localhost:1100/api/v1/auth/register",
+        "http://3.110.127.251:1100/api/v1/auth/register",
         data
       );
       // Handle successful signup here (e.g., show success message, redirect to login)

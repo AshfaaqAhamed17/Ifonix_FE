@@ -38,7 +38,7 @@ function AdminQCard({ questionDetails }: PostProps) {
 
   const handleRejectAndCloseModal = async (postId: string) => {
     const response = await axios.put(
-      `http://localhost:1100/api/v1/question/reject/${postId}`,
+      `http://3.110.127.251:1100/api/v1/question/reject/${postId}`,
       { rejectedfeedback: feedback, IsRejected: true }
     );
     if (response) {
@@ -59,7 +59,7 @@ function AdminQCard({ questionDetails }: PostProps) {
   const handleApprovePost = async (postId: string) => {
     // Logic to handle approving the post
     const response = await axios.put(
-      `http://localhost:1100/api/v1/question/approve/${postId}`
+      `http://3.110.127.251:1100/api/v1/question/approve/${postId}`
     );
     if (response) {
       console.log(`Post with ID ${postId} has been approved.`);
@@ -92,7 +92,7 @@ function AdminQCard({ questionDetails }: PostProps) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const response = await axios.delete(
-          `http://localhost:1100/api/v1/question/${postId}`
+          `http://3.110.127.251:1100/api/v1/question/${postId}`
         );
         if (response) {
           console.log("QUESTION deleted successfully!");
