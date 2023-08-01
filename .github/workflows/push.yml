@@ -30,4 +30,4 @@ jobs:
       # should save this keys in github, settings of the project, secrets :
       # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
       - name: aws deploy
-        run: BUILD_DIRECTORY=build BUCKET_NAME=ifonixapp AWS_ACCESS_KEY_ID=${{ AKIAZX2HF54Z5JBYI75E }} AWS_SECRET_ACCESS_KEY=${{ 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 }} npm run deploy-aws
+        run: BUILD_DIRECTORY=build BUCKET_NAME=ifonixapp AWS_ACCESS_KEY_ID=AKIAZX2HF54Z5JBYI75E AWS_SECRET_ACCESS_KEY=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 npm run deploy-aws
