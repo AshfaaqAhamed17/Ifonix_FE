@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy-aws": "aws s3 sync build s3://ifonixapp" // Corrected the S3 bucket URL
+    "deploy-aws": "aws s3 sync build s3://ifonixapp" 
   },
   
 },
