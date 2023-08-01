@@ -15,7 +15,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-east-1'  # Set any valid AWS region (won't impact global S3 bucket)
+          aws-region: ${{ secrets.AWS_REGION }}  # Set any valid AWS region (won't impact global S3 bucket)
       - name: Build React App
         run: npm install && npm run build
       - name: Deploy app build to S3 bucket
