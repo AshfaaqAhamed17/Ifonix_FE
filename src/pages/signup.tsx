@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -11,6 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import api from "../api";
 import Swal from "sweetalert2";
 
 function Signup() {
@@ -61,10 +61,7 @@ function Signup() {
 
       console.log("Signup form data:", JSON.stringify(data));
       // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for signup
-      const response = await axios.post(
-        "http://13.127.206.58:1100/api/v1/auth/register",
-        data
-      );
+      const response = await api.post("/auth/register", data);
       // Handle successful signup here (e.g., show success message, redirect to login)
       if (response) {
         console.log("Signup successful!");

@@ -9,7 +9,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import axios from "axios";
+import api from "../api";
 import Swal from "sweetalert2";
 import { NotificationImportant } from "@mui/icons-material"; // Import the bell icon
 
@@ -31,12 +31,8 @@ function Navbar() {
 
   // const userId = localStorage.getItem("userId");
   useEffect(() => {
-    axios
-      .get(
-        `http://13.127.206.58:1100/api/v1/question/rejectedfeedback/${localStorage.getItem(
-          "userId"
-        )}`
-      )
+    api
+      .get(`/question/rejectedfeedback/${localStorage.getItem("userId")}`)
       .then((response) => {
         setNotifications(response.data);
       });
@@ -61,10 +57,7 @@ function Navbar() {
         IsAdminApproved:
           localStorage.getItem("role") === "admin" ? true : false,
       };
-      const response = await axios.post(
-        "http://13.127.206.58:1100/api/v1/question/create",
-        data
-      );
+      const response = await api.post("/question/create", data);
       console.log("Uploading question:", question); // Log the question value
       if (response) {
         console.log("Question uploaded successfully!");

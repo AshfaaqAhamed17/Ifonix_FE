@@ -7,7 +7,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import axios from "axios";
+import api from "../api";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 
@@ -37,10 +37,10 @@ function AdminQCard({ questionDetails }: PostProps) {
   };
 
   const handleRejectAndCloseModal = async (postId: string) => {
-    const response = await axios.put(
-      `http://13.127.206.58:1100/api/v1/question/reject/${postId}`,
-      { rejectedfeedback: feedback, IsRejected: true }
-    );
+    const response = await api.put(`/question/reject/${postId}`, {
+      rejectedfeedback: feedback,
+      IsRejected: true,
+    });
     if (response) {
       console.log("Feedback sent.", feedback);
       setShowModal(false);
@@ -58,9 +58,7 @@ function AdminQCard({ questionDetails }: PostProps) {
 
   const handleApprovePost = async (postId: string) => {
     // Logic to handle approving the post
-    const response = await axios.put(
-      `http://13.127.206.58:1100/api/v1/question/approve/${postId}`
-    );
+    const response = await api.put(`/question/approve/${postId}`);
     if (response) {
       console.log(`Post with ID ${postId} has been approved.`);
       Swal.fire({
@@ -91,9 +89,7 @@ function AdminQCard({ questionDetails }: PostProps) {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const response = await axios.delete(
-          `http://13.127.206.58:1100/api/v1/question/${postId}`
-        );
+        const response = await api.delete(`/question/${postId}`);
         if (response) {
           console.log("QUESTION deleted successfully!");
           Swal.fire({

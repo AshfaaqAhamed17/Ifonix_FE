@@ -1,12 +1,12 @@
 // AdminPage.tsx
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Navbar from "../components/navbar";
 import AdminQCard from "../components/AdminQCard";
+import api from "../api";
 
 interface Post {
   _id: string;
@@ -24,17 +24,19 @@ function Admin() {
 
   useEffect(() => {
     // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
-    axios
-      .get("http://13.127.206.58:1100/api/v1/question/adminUnapproved")
-      .then((response) => {
-        setPosts(response.data);
-      });
+    // axios
+    //   .get("http://13.127.206.58:1100/api/v1/question/adminUnapproved")
+    //   .then((response) => {
+    //     setPosts(response.data);
+    //   });
 
-    axios
-      .get("http://13.127.206.58:1100/api/v1/question/adminRejected")
-      .then((response) => {
-        setRejectedPosts(response.data);
-      });
+    api.get("/question/adminUnapproved").then((response) => {
+      setPosts(response.data);
+    });
+
+    api.get("/question/adminRejected").then((response) => {
+      setRejectedPosts(response.data);
+    });
 
     // axios
     //   .get("http://13.127.206.58:1100/api/v1/answer/unapprovedAnswers")

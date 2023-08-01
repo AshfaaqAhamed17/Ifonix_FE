@@ -6,7 +6,7 @@ import Navbar from "../components/navbar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Send } from "@mui/icons-material";
 import PostDetails_Card from "../components/postdetails_card";
-import axios from "axios";
+import api from "../api";
 import { Button, TextField, Box } from "@mui/material";
 import Swal from "sweetalert2";
 
@@ -46,8 +46,8 @@ function PostDetails() {
 
   useEffect(() => {
     // Fetch the list of questions from the server
-    axios
-      .get("http://13.127.206.58:1100/api/v1/question/adminApproved")
+    api
+      .get("/question/adminApproved")
       .then((response) => {
         // Find the question with the matching postId
         const foundPost = response.data.find(
@@ -58,8 +58,8 @@ function PostDetails() {
 
         // If the post is found, fetch the answers associated with the post
         if (foundPost) {
-          axios
-            .get(`http://13.127.206.58:1100/api/v1/answer/approved/${postId}`)
+          api
+            .get(`/answer/approved/${postId}`)
             .then((answersResponse) => {
               setAnswers(answersResponse.data);
             })
@@ -88,9 +88,7 @@ function PostDetails() {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const response = await axios.delete(
-          `http://13.127.206.58:1100/api/v1/question/${postId}`
-        );
+        const response = await api.delete(`/question/${postId}`);
         if (response) {
           console.log("QUESTION deleted successfully!");
           Swal.fire({
@@ -115,10 +113,7 @@ function PostDetails() {
         answer: answerText,
         author: localStorage.getItem("userId"),
       };
-      const response = await axios.post(
-        "http://13.127.206.58:1100/api/v1/answer/create",
-        answerData
-      );
+      const response = await api.post("/answer/create", answerData);
       console.log("Uploading question:", answerText); // Log the question value
       if (response) {
         console.log("Comment uploaded successfully!");

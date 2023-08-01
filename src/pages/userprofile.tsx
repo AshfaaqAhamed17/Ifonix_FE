@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Post_card from "../components/Post_card";
-import axios from "axios";
+import api from "../api";
 
 interface User {
   _id: string;
@@ -37,22 +37,20 @@ function UserProfile() {
 
   useEffect(() => {
     // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
-    axios.get("http://13.127.206.58:1100/api/v1/auth/all").then((response) => {
+    api.get("/auth/all").then((response) => {
       setUser(
         response.data.find((user: { _id: string }) => user._id === userId) ||
           null
       );
     });
-    axios
-      .get("http://13.127.206.58:1100/api/v1/question/adminApproved")
-      .then((response) => {
-        // setPosts(response.data);
-        setUserQuestions(
-          response.data.filter(
-            (question: { authorId: string }) => question.authorId === userId
-          )
-        );
-      });
+    api.get("/question/adminApproved").then((response) => {
+      // setPosts(response.data);
+      setUserQuestions(
+        response.data.filter(
+          (question: { authorId: string }) => question.authorId === userId
+        )
+      );
+    });
   }, [userId]);
 
   if (!user) {

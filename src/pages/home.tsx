@@ -1,7 +1,7 @@
 // Home.tsx
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import Post_card from "../components/Post_card";
 import Navbar from "../components/navbar";
 
@@ -31,14 +31,14 @@ function Home() {
 
   useEffect(() => {
     // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
-    axios
+    api
       .get("http://13.127.206.58:1100/api/v1/question/adminApproved")
       .then((response) => {
         setPosts(response.data);
       });
 
     localStorage.getItem("role") === "admin"
-      ? axios
+      ? api
           .get("http://13.127.206.58:1100/api/v1/auth/all")
           .then((response) => {
             setAuthors(response.data);

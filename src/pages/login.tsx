@@ -10,7 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import axios from "axios";
+import api from "../api";
 import Swal from "sweetalert2";
 
 function Login() {
@@ -43,10 +43,7 @@ function Login() {
         password: formData.password,
       };
       // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for login
-      const response = await axios.post(
-        "http://13.127.206.58:1100/api/v1/auth/login",
-        data
-      );
+      const response = await api.post("/auth/login", data);
       // Handle successful login here (e.g., show success message, redirect to login)
       if (response) {
         console.log("Login successful!");

@@ -1,5 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import axios from "axios";
+import api from "../api";
 import Swal from "sweetalert2";
 
 interface Answer {
@@ -28,9 +28,7 @@ function postdetails({ answer, isUserProf }: answerProps) {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const response = await axios.delete(
-          `http://13.127.206.58:1100/api/v1/answer/${answerId}`
-        );
+        const response = await api.delete(`/answer/${answerId}`);
         if (response) {
           console.log("QUESTION deleted successfully!");
           Swal.fire({
