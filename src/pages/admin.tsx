@@ -20,29 +20,20 @@ interface Post {
 function Admin() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [rejectedPosts, setRejectedPosts] = useState<Post[]>([]);
-  // const [answers, setAnswers] = useState<Answer[]>([]);
+  const [approvedPosts, setApprovedPosts] = useState<number>(0);
 
   useEffect(() => {
-    // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
-    // axios
-    //   .get("http://13.127.206.58:1100/api/v1/question/adminUnapproved")
-    //   .then((response) => {
-    //     setPosts(response.data);
-    //   });
-
     api.get("/question/adminUnapproved").then((response) => {
       setPosts(response.data);
+    });
+
+    api.get("/question/adminApproved").then((response) => {
+      setApprovedPosts(response.data.length);
     });
 
     api.get("/question/adminRejected").then((response) => {
       setRejectedPosts(response.data);
     });
-
-    // axios
-    //   .get("http://13.127.206.58:1100/api/v1/answer/unapprovedAnswers")
-    //   .then((response) => {
-    //     setAnswers(response.data);
-    //   });
   }, []);
 
   const [value, setValue] = React.useState("post");
@@ -53,27 +44,31 @@ function Admin() {
     setValue(newValue);
   };
   // Dummy data for number of posts
-  const totalPosts = 100; // Replace with the actual total number of posts
+  const totalPosts = posts.length + rejectedPosts.length; // Replace with the actual total number of posts
   const postsInReview = posts.length; // Replace with the actual number of posts in review
-  const answersInReview = rejectedPosts.length; // Replace with the actual number of posts in review
+  const postsRejected = rejectedPosts.length; // Replace with the actual number of posts in review
 
   return (
     <>
       <Navbar />
       <div className="p-4">
         <h2 className="text-2xl font-bold mb-6 text-center">Admin Dashboard</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-bold mb-2">Total Posts</h3>
             <p className="text-4xl font-semibold">{totalPosts}</p>
+          </div>
+          <div className="bg-green-500 text-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-bold mb-2">Approved Posts</h3>
+            <p className="text-4xl font-semibold">{approvedPosts}</p>
           </div>
           <div className="bg-yellow-500 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-bold mb-2">Posts in Review</h3>
             <p className="text-4xl font-semibold">{postsInReview}</p>
           </div>
-          <div className="bg-green-500 text-white p-6 rounded-lg shadow-md">
+          <div className="bg-red-500 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-bold mb-2">Rejected Posts</h3>
-            <p className="text-4xl font-semibold">{answersInReview}</p>
+            <p className="text-4xl font-semibold">{postsRejected}</p>
           </div>
         </div>
       </div>

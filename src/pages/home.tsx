@@ -30,7 +30,6 @@ function Home() {
   const [selectedDateRange, setSelectedDateRange] = useState<string>("");
 
   useEffect(() => {
-    // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
     api
       .get("http://13.127.206.58:1100/api/v1/question/adminApproved")
       .then((response) => {

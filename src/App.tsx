@@ -39,12 +39,8 @@ function App() {
           ) : (
             <>
               <Route path="/*" element={<Navigate to="/login" />} />
-              {/* <Route path="/" element={<Home />} /> */}
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
-              {/* <Route path="/about" element={<About />} /> */}
-              {/* <Route path="/post/:id" element={<PostDetails />} /> */}
-              {/* <Route path="/user/:userId" element={<UserProfile />} /> */}
               {isAuthenticated ? (
                 // Show Admin component only for authenticated users
                 <Route path="/admin" element={<Admin />} />

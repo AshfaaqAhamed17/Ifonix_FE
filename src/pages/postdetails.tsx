@@ -32,8 +32,6 @@ function PostDetails() {
   let { id } = useParams();
   const postId = id;
   const history = useNavigate();
-  console.log("Post ID: >>>> " + id);
-  console.log("Post ID: >>>> " + postId);
 
   if (!id) {
     // Handle the case where id is undefined or empty
@@ -97,7 +95,7 @@ function PostDetails() {
             showConfirmButton: false,
             timer: 3000,
           }).then(() => {
-            history("/home");
+            history("/");
           });
         }
       }
@@ -152,7 +150,7 @@ function PostDetails() {
         </div>
         <div className="flex justify-end">
           <button
-            className={`text-red-500 mt-2 flex items-center ${
+            className={`text-red-500 bg-slate-50 mt-2 flex items-center ${
               localStorage.getItem("role") === "admin" ||
               localStorage.getItem("userId") === post.authorId
                 ? ""
@@ -177,6 +175,7 @@ function PostDetails() {
                 key={answer._id}
                 answer={answer}
                 isUserProf={false}
+                // postId={post.authorId}
               />
             ))}
           </div>

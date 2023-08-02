@@ -119,10 +119,6 @@ function Navbar() {
           </ul>
         </div>
 
-        {/* <div className="flex items-center">
-
-        </div> */}
-
         <div className="flex mx-10 items-center space-x-4">
           <div>
             <button
@@ -131,8 +127,7 @@ function Navbar() {
               className={`${notifications.length > 0 ? "" : "hidden"}    
              `}
             >
-              <NotificationImportant className="text-red-500" />{" "}
-              {/* Bell icon */}
+              <NotificationImportant className="text-red-500 bg-slate-50" />
             </button>
             <Dialog
               open={modalOpen}
@@ -170,10 +165,10 @@ function Navbar() {
           </div>
           <div>
             <button
-              className="bg-slate-50 text-gray-500 py-2 px-4 rounded-lg shadow-md"
+              className="bg-blue-700 text-white hover:bg-blue-900  py-2 px-4 rounded-lg shadow-md"
               onClick={handleOpenModal}
             >
-              Upload <Upload />
+              Add Post<Upload />
             </button>
 
             <Dialog

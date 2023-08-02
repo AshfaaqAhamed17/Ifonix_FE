@@ -143,7 +143,9 @@ function AdminQCard({ questionDetails }: PostProps) {
           </button>
           <button
             // className="text-red-500 mt-2 flex items-center self-end"
-            className={`text-center text-red-500 hover:text-white hover:bg-red-500 `}
+            className={`text-center bg-slate-100 text-red-500 hover:text-white hover:bg-red-500 
+            ${questionDetails.IsRejected ? "" : "hidden"}    
+            `}
             onClick={() => handleDeletePost(questionDetails._id)}
           >
             <span className="material-icons">

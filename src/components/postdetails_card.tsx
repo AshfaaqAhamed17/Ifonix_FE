@@ -13,6 +13,7 @@ interface Answer {
 
 interface answerProps {
   answer: Answer;
+  // postId: string;
   isUserProf: boolean;
 }
 
@@ -58,7 +59,7 @@ function postdetails({ answer, isUserProf }: answerProps) {
         // className="text-red-500 mt-2 flex items-center self-end"
         className={`${
           isUserProf ? "hidden" : ""
-        } text-red-500 mt-2 flex items-center self-end 
+        } text-red-500 bg-slate-50 mt-2 flex items-center self-end 
       
         ${
           localStorage.getItem("role") === "admin" ||
