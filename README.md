@@ -11,6 +11,8 @@
 -- ```npm install```
 - Run the application
 -- ```npm run dev```
+
+  ---
   
 Currently, two official plugins are available:
 
