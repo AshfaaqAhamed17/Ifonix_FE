@@ -1,3 +1,5 @@
+// Login page to handle user login
+
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -26,6 +28,7 @@ function Login() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  // Toggle password visibility
   const handleTogglePasswordVisibility = () => {
     setFormData((prevData) => ({
       ...prevData,
@@ -36,15 +39,13 @@ function Login() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Here you can handle the login process using your API endpoint or authentication logic
+    // Handle the login process
     try {
       const data = {
         email: formData.email,
         password: formData.password,
       };
-      // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for login
       const response = await api.post("/auth/login", data);
-      // Handle successful login here (e.g., show success message, redirect to login)
       if (response) {
         console.log("Login successful!");
         console.log(
@@ -53,9 +54,9 @@ function Login() {
         );
         console.log("Login response:", JSON.stringify(response.data));
         if (response.data.role === "admin") {
-          history("/admin");
+          history("/admin"); // Redirect to admin page
         } else if (response.data.role === "user") {
-          history("/"); // Redirect to the login page after successful signup
+          history("/"); // Redirect to home page
         }
         localStorage.setItem("userName", response.data.userName);
         localStorage.setItem("email", response.data.email);
@@ -65,7 +66,7 @@ function Login() {
         Swal.fire({
           icon: "error",
           title: "Login failed!",
-          text: "Invalid credentials!",
+          text: "Something went wrong!",
           showConfirmButton: false,
           timer: 2000,
         });
@@ -77,7 +78,6 @@ function Login() {
         showConfirmButton: false,
         timer: 2000,
       });
-      // Handle login error here (e.g., show error message)
       console.error("Login failed:", error);
     }
   };

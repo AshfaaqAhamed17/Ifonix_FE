@@ -1,3 +1,7 @@
+// Question Card for Admin Dashboard
+// This component is used to display the question cards on the Admin Dashboard
+// Admin can approve or reject the question from this card
+
 import { useState } from "react";
 import {
   Dialog,
@@ -56,8 +60,8 @@ function AdminQCard({ questionDetails }: PostProps) {
     }
   };
 
+  // Logic to handle approving the post
   const handleApprovePost = async (postId: string) => {
-    // Logic to handle approving the post
     const response = await api.put(`/question/approve/${postId}`);
     if (response) {
       console.log(`Post with ID ${postId} has been approved.`);
@@ -72,12 +76,14 @@ function AdminQCard({ questionDetails }: PostProps) {
     }
   };
 
+  // Logic to handle rejecting the post
   const handleRejectQuestion = (question: Question) => {
     console.log("Question: ", question);
     setSelectedQuestion(question);
     setShowModal(true);
   };
 
+  // Logic to handle deleting the post
   const handleDeletePost = async (postId: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -142,7 +148,6 @@ function AdminQCard({ questionDetails }: PostProps) {
             Reject Post
           </button>
           <button
-            // className="text-red-500 mt-2 flex items-center self-end"
             className={`text-center bg-slate-100 text-red-500 hover:text-white hover:bg-red-500 
             ${questionDetails.IsRejected ? "" : "hidden"}    
             `}
@@ -154,6 +159,7 @@ function AdminQCard({ questionDetails }: PostProps) {
           </button>
         </div>
       </div>
+      {/* Pop up Dialog box to handle rejected posts */}
       <Dialog
         open={showModal}
         onClose={handleCloseModal}

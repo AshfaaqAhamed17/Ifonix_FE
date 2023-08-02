@@ -1,3 +1,5 @@
+// Card where answers of the relevant questions are populated
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import api from "../api";
 import Swal from "sweetalert2";
@@ -13,7 +15,6 @@ interface Answer {
 
 interface answerProps {
   answer: Answer;
-  // postId: string;
   isUserProf: boolean;
 }
 
@@ -56,7 +57,6 @@ function postdetails({ answer, isUserProf }: answerProps) {
       <p className="mb-2">{answer.answer}</p>
       <p className="text-sm text-gray-500">Author: {answer.author}</p>
       <button
-        // className="text-red-500 mt-2 flex items-center self-end"
         className={`${
           isUserProf ? "hidden" : ""
         } text-red-500 bg-slate-50 mt-2 flex items-center self-end 

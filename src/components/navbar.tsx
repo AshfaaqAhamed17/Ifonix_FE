@@ -1,3 +1,8 @@
+// Navigation bar component
+// This component is used to display the navigation bar on the top of the page
+// It contains the logo, home button, and upload question button (only for users)
+// Admins can view the admin dashboard from the navigation bar
+
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Upload } from "@mui/icons-material";
@@ -11,7 +16,7 @@ import {
 } from "@mui/material";
 import api from "../api";
 import Swal from "sweetalert2";
-import { NotificationImportant } from "@mui/icons-material"; // Import the bell icon
+import { NotificationImportant } from "@mui/icons-material";
 
 interface Question {
   _id: string;
@@ -24,13 +29,13 @@ interface Question {
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-  const [question, setQuestion] = useState(""); // State to store the question value
+  const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [notifications, setNotifications] = useState<Question[]>([]);
 
-  // const userId = localStorage.getItem("userId");
   useEffect(() => {
+    // Fetch the rejected questions from the database
     api
       .get(`/question/rejectedfeedback/${localStorage.getItem("userId")}`)
       .then((response) => {
@@ -48,6 +53,7 @@ function Navbar() {
     setOpen(false);
   };
 
+  // Logic to upload the question to the database
   const handleUploadQuestion = async () => {
     try {
       const data = {
@@ -106,7 +112,6 @@ function Navbar() {
               Apple House
             </h1>
           </NavLink>
-          {/* <div className="mx-5"></div> */}
           <ul className="flex items-center">
             {localStorage.getItem("role") === "admin" ? (
               <NavLink to="/admin">
@@ -155,7 +160,6 @@ function Navbar() {
                   </div>
                 </DialogContent>
               ))}
-              {/* Add your div content here */}
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
                   Close
@@ -168,7 +172,8 @@ function Navbar() {
               className="bg-blue-700 text-white hover:bg-blue-900  py-2 px-4 rounded-lg shadow-md"
               onClick={handleOpenModal}
             >
-              Add Post<Upload />
+              Add Post
+              <Upload />
             </button>
 
             <Dialog
@@ -185,8 +190,8 @@ function Navbar() {
                   label="Title"
                   type="text"
                   fullWidth
-                  value={title} // Bind the value of the TextField to the question state
-                  onChange={handleChangeTitle} // Handle the change event to update the question state
+                  value={title}
+                  onChange={handleChangeTitle}
                 />
               </DialogContent>
               <DialogContent>
@@ -196,8 +201,8 @@ function Navbar() {
                   label="Question"
                   type="text"
                   fullWidth
-                  value={question} // Bind the value of the TextField to the question state
-                  onChange={handleChangeQuestion} // Handle the change event to update the question state
+                  value={question}
+                  onChange={handleChangeQuestion}
                 />
               </DialogContent>
               <DialogActions>

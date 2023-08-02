@@ -1,4 +1,5 @@
-// PostDetails.tsx
+// Page to show the details of a post along with its answers
+// User can answer to the question in this page. Deletion of the post is possible for the users
 
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -75,6 +76,7 @@ function PostDetails() {
     return <div>Loading...</div>;
   }
 
+  // Logic to handle the post deletion
   const handleDeletePost = (postId: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -102,6 +104,7 @@ function PostDetails() {
     });
   };
 
+  // Logic to handle the answer submission
   const handleSubmitAnswer = async () => {
     console.log("post select for answer:", postId);
     console.log("Answer submitted:", answerText);
@@ -130,8 +133,8 @@ function PostDetails() {
     }
   };
 
+  // Update the question state when the user types in the TextField
   const handleChangeAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Update the question state when the user types in the TextField
     setAnswerText(event.target.value);
   };
 

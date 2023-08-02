@@ -1,4 +1,7 @@
-// AdminPage.tsx
+// Admin page should be accessible only to authenticated users with admin role
+// All posted questions should be displayed in the Admin page where admin has to approve or reject the question
+// Admin should be able to reject questions and give feedback for rejection
+// Admin should be able to view the rejected questions
 
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
@@ -22,6 +25,7 @@ function Admin() {
   const [rejectedPosts, setRejectedPosts] = useState<Post[]>([]);
   const [approvedPosts, setApprovedPosts] = useState<number>(0);
 
+  // Fetch the unapproved, approved and rejected posts from the database
   useEffect(() => {
     api.get("/question/adminUnapproved").then((response) => {
       setPosts(response.data);
@@ -39,11 +43,11 @@ function Admin() {
   const [value, setValue] = React.useState("post");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    console.log("newValue", newValue);
     console.log("event", event);
     setValue(newValue);
   };
-  // Dummy data for number of posts
+
+  // post count to display in the cards
   const totalPosts = posts.length + rejectedPosts.length; // Replace with the actual total number of posts
   const postsInReview = posts.length; // Replace with the actual number of posts in review
   const postsRejected = rejectedPosts.length; // Replace with the actual number of posts in review
@@ -73,6 +77,7 @@ function Admin() {
         </div>
       </div>
       <div className="">
+        {/* Tab view for approval needed posts and rejected posts */}
         <Box sx={{ width: "100%", typography: "body1" }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

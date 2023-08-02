@@ -1,4 +1,7 @@
-// Home.tsx
+// Home page component
+// Home page where user lands ince logged in
+// It displays all the questions posted by the users
+// Search bar is used to search for questions. Admins can filter by date and author too
 
 import React, { useEffect, useState } from "react";
 import api from "../api";
@@ -29,19 +32,16 @@ function Home() {
   const [authorSearchQuery, setAuthorSearchQuery] = useState<string>("");
   const [selectedDateRange, setSelectedDateRange] = useState<string>("");
 
+  // Fetch all approved posts to display in home page
   useEffect(() => {
-    api
-      .get("http://13.127.206.58:1100/api/v1/question/adminApproved")
-      .then((response) => {
-        setPosts(response.data);
-      });
+    api.get("/question/adminApproved").then((response) => {
+      setPosts(response.data);
+    });
 
     localStorage.getItem("role") === "admin"
-      ? api
-          .get("http://13.127.206.58:1100/api/v1/auth/all")
-          .then((response) => {
-            setAuthors(response.data);
-          })
+      ? api.get("/auth/all").then((response) => {
+          setAuthors(response.data);
+        })
       : null;
   }, []);
 
@@ -59,8 +59,7 @@ function Home() {
     setAuthorSearchQuery(event.target.value);
   };
 
-  // DATE FILTERS
-
+  // Filter posts by date for Admin use
   const handleDateRangeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -85,20 +84,27 @@ function Home() {
     let startDate = new Date();
     let endDate = new Date();
 
+    // For the posts posted today
     if (selectedDateRange === "today") {
       startDate.setHours(0, 0, 0, 0);
       endDate.setHours(23, 59, 59, 999);
-    } else if (selectedDateRange === "yesterday") {
+    }
+    // For the posts posted yesterday
+    else if (selectedDateRange === "yesterday") {
       startDate.setDate(currentDate.getDate() - 1);
       startDate.setHours(0, 0, 0, 0);
       endDate.setDate(currentDate.getDate() - 1);
       endDate.setHours(23, 59, 59, 999);
-    } else if (selectedDateRange === "this_week") {
+    }
+    // For the posts posted this week
+    else if (selectedDateRange === "this_week") {
       startDate.setDate(currentDate.getDate() - currentDate.getDay());
       startDate.setHours(0, 0, 0, 0);
       endDate.setDate(currentDate.getDate() - currentDate.getDay() + 6);
       endDate.setHours(23, 59, 59, 999);
-    } else if (selectedDateRange === "this_month") {
+    }
+    // For the posts posted this month
+    else if (selectedDateRange === "this_month") {
       startDate.setDate(1);
       startDate.setHours(0, 0, 0, 0);
       endDate.setMonth(currentDate.getMonth() + 1, 0);
@@ -123,7 +129,6 @@ function Home() {
           <h1 className="font-bold text-white">NEW PRODUCT LAUNCH</h1>
           <div className="flex justify-center items-center">
             <img
-              // src="src\assets\images\banner2.gif"
               src="https://media.tenor.com/6oZXKmRstsMAAAAC/apple-apple-iphone.gif"
               alt="image?"
               className="rounded"

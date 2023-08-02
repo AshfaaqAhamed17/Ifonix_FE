@@ -1,3 +1,6 @@
+// Signup page where users can create an account
+// Will be created as a user account
+
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -29,6 +32,7 @@ function Signup() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  // Toggle password visibility
   const handleTogglePasswordVisibility = (field: string) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -38,6 +42,7 @@ function Signup() {
     }));
   };
 
+  // Handle the signup process
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -51,24 +56,18 @@ function Signup() {
       console.error("Passwords do not match!");
       return;
     }
-
     try {
       const data = {
         userName: formData.username,
         email: formData.email,
         password: formData.password,
       };
-
-      console.log("Signup form data:", JSON.stringify(data));
-      // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for signup
       const response = await api.post("/auth/register", data);
-      // Handle successful signup here (e.g., show success message, redirect to login)
       if (response) {
         console.log("Signup successful!");
         history("/login"); // Redirect to the login page after successful signup
       }
     } catch (error) {
-      // Handle signup error here (e.g., show error message)
       console.error("Signup failed yes:", error);
     }
   };

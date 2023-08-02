@@ -1,3 +1,5 @@
+// Card to show the question details
+
 import { Link } from "react-router-dom";
 
 interface Post {

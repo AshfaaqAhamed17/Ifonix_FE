@@ -1,4 +1,5 @@
-// UserProfile.tsx
+// User profile page where the user can see his/her posts.
+// User can logout of the account from this page.
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -35,8 +36,8 @@ function UserProfile() {
     history("/login");
   };
 
+  // Fetch the post of the relevant user from the server
   useEffect(() => {
-    // Fetch approved posts from the backend API (replace 'YOUR_API_ENDPOINT' with the actual endpoint)
     api.get("/auth/all").then((response) => {
       setUser(
         response.data.find((user: { _id: string }) => user._id === userId) ||
@@ -44,7 +45,6 @@ function UserProfile() {
       );
     });
     api.get("/question/adminApproved").then((response) => {
-      // setPosts(response.data);
       setUserQuestions(
         response.data.filter(
           (question: { authorId: string }) => question.authorId === userId
