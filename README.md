@@ -6,13 +6,13 @@
 - Node version -- ```18.x```
 - npm version -- ```9.x```
 - MongoDB is used as the database.
- ---
+---
 - Install dependencies
 -- ```npm install```
 - Run the application
 -- ```npm run dev```
 
-  ---
+---
   
 Currently, two official plugins are available:
 
